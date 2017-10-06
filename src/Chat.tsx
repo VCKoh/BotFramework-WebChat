@@ -159,6 +159,51 @@ export class Chat extends React.Component<ChatProps, {}> {
         }
     }
 
+    // VC - Support changing of conversation id
+    componentDidUpdate() {
+        konsole.log("Chat componentDidUpdate");
+
+        this.connectionStatusSubscription.unsubscribe();
+        this.activitySubscription.unsubscribe();
+        if (this.selectedActivitySubscription)
+            this.selectedActivitySubscription.unsubscribe();
+        if (this.botConnection)
+            this.botConnection.end();
+
+        const botConnection = this.props.directLine
+        ? (this.botConnection = new DirectLine(this.props.directLine))
+        : this.props.botConnection
+        ;    
+
+        this.store.dispatch<ChatActions>({ type: 'Start_Connection', user: this.props.user, bot: this.props.bot, botConnection, selectedActivity: this.props.selectedActivity });        
+        this.store.dispatch<ChatActions>({ type: 'Clear_History' });
+        konsole.log("dispatch 'Clear_History'");
+
+        this.connectionStatusSubscription = botConnection.connectionStatus$.subscribe(connectionStatus =>{
+                if(this.props.speechOptions && this.props.speechOptions.speechRecognizer){
+                    let refGrammarId = botConnection.referenceGrammarId;
+                    if(refGrammarId)
+                        this.props.speechOptions.speechRecognizer.referenceGrammarId = refGrammarId;
+                }
+                this.store.dispatch<ChatActions>({ type: 'Connection_Change', connectionStatus })
+            }
+        );
+
+        this.activitySubscription = botConnection.activity$.subscribe(
+            activity => this.handleIncomingActivity(activity),
+            error => konsole.log("activity$ error", error)
+        );
+
+        if (this.props.selectedActivity) {
+            this.selectedActivitySubscription = this.props.selectedActivity.subscribe(activityOrID => {
+                this.store.dispatch<ChatActions>({
+                    type: 'Select_Activity',
+                    selectedActivity: activityOrID.activity || this.store.getState().history.activities.find(activity => activity.id === activityOrID.id)
+                });
+            });
+        }
+    }
+
     componentWillUnmount() {
         this.connectionStatusSubscription.unsubscribe();
         this.activitySubscription.unsubscribe();

@@ -288,6 +288,8 @@ export type HistoryAction = {
 } | {
     type: 'Clear_Typing',
     id: string
+} | {
+    type: 'Clear_History' // VC
 }
 
 const copyArrayWithUpdatedItem = <T>(array: Array<T>, i: number, item: T) => [
@@ -424,6 +426,15 @@ export const history: Reducer<HistoryState> = (
                 activities: copyArrayWithUpdatedItem(state.activities, i, newActivity),
                 selectedActivity: state.selectedActivity === activity ? newActivity : state.selectedActivity
             }
+
+        // VC
+        case 'Clear_History':
+            return {
+                activities: [],
+                clientActivityBase: Date.now().toString() + Math.random().toString().substr(1) + '.',
+                clientActivityCounter: 0,
+                selectedActivity: null
+            };
 
         default:
             return state;
