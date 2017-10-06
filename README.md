@@ -1,6 +1,6 @@
 # Microsoft Bot Framework Web Chat
 
-Fork from [Microsoft Bot Framework Web Chat](https://github.com/Microsoft/BotFramework-WebChat).
+Forked from [Microsoft Bot Framework Web Chat](https://github.com/Microsoft/BotFramework-WebChat).
 
 Added the following:
 
