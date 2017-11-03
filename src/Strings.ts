@@ -34,6 +34,21 @@ const localizedStrings: LocalizedStrings = {
         consolePlaceholder: "Type your message...",
         listeningIndicator: "Listening..."
     },
+    'ja': {
+        title: "チャット",
+        send: "送信",
+        unknownFile: "[ファイルタイプ '%1']",
+        unknownCard: "[不明なカード '%1']",
+        receiptVat: "消費税",
+        receiptTax: "税",
+        receiptTotal: "合計",
+        messageRetry: "再送",
+        messageFailed: "送信できませんでした。",
+        messageSending: "送信中",
+        timeSent: " %1",
+        consolePlaceholder: "メッセージを入力してください...",
+        listeningIndicator: "聴いてます..."
+    },
     'nb-no': {
         title: "Chat",
         send: "Send",
@@ -48,7 +63,22 @@ const localizedStrings: LocalizedStrings = {
         timeSent: " %1",
         consolePlaceholder: "Skriv inn melding...",
         listeningIndicator: "Lytter..."
-    },    
+    },
+    'da-dk': {
+        title: "Chat",
+        send: "Send",
+        unknownFile: "[Fil af typen '%1']",
+        unknownCard: "[Ukendt kort '%1']",
+        receiptVat: "Moms",
+        receiptTax: "Skat",
+        receiptTotal: "Total",
+        messageRetry: "prøv igen",
+        messageFailed: "ikke sendt",
+        messageSending: "sender",
+        timeSent: " kl %1",
+        consolePlaceholder: "Skriv din besked...",
+        listeningIndicator: "Lytter..."
+    },
     'de-de': {
         title: "Chat",
         send: "Senden",
@@ -268,7 +298,9 @@ export const defaultStrings = localizedStrings['en-us'];
 // strings('en') should return localizedStrings('en-us')
 
 export const strings = (locale: string) => {
-    if (locale.startsWith('de'))
+    if (locale.startsWith('da'))
+        locale = 'da-dk';
+    else if (locale.startsWith('de'))
         locale = 'de-de';
     else if (locale.startsWith('no') || locale.startsWith('nb') || locale.startsWith('nn'))
         locale = 'nb-no';
@@ -290,15 +322,13 @@ export const strings = (locale: string) => {
         locale = 'el-gr';
     else if (locale.startsWith('it'))
         locale = 'it-it';
-    else if (locale === 'zh-yue')
-        locale = 'zh-yue';
     else if (locale === 'zh-hant' || locale === 'zh-hk' || locale === 'zh-mo' || locale === 'zh-tw')
         locale = 'zh-hant';
     else if (locale.startsWith('zh'))
         locale = 'zh-hans';
     else if (locale.startsWith('cs'))
         locale = 'cs-cz';
-    else
+    else if (locale in localizedStrings === false)
         locale = 'en-us';
 
     return localizedStrings[locale];
