@@ -171,7 +171,9 @@ export const History = connect(
         connectionSelectedActivity: state.connection.selectedActivity,
         selectedActivity: state.history.selectedActivity,
         botConnection: state.connection.botConnection,
-        user: state.connection.user
+        user: state.connection.user,
+        // VC - Show bot message on the right hand side
+        bot: state.connection.bot
     }), {
         setMeasurements: (carouselMargin: number) => ({ type: 'Set_Measurements', carouselMargin }),
         onClickRetry: (activity: Activity) => ({ type: 'Send_Message_Retry', clientActivityId: activity.channelData.clientActivityId }),
@@ -189,7 +191,9 @@ export const History = connect(
         onClickCardAction: dispatchProps.onClickCardAction,
         // helper functions
         doCardAction: doCardAction(stateProps.botConnection, stateProps.user, stateProps.format.locale, dispatchProps.sendMessage),
-        isFromMe: (activity: Activity) => activity.from.id === stateProps.user.id,
+        // VC - Show bot message on the right hand side
+        // isFromMe: (activity: Activity) => activity.from.id === stateProps.user.id,
+        isFromMe: (activity: Activity) => activity.from.id === stateProps.user.id || activity.from.id === stateProps.bot.id,
         isSelected: (activity: Activity) => activity === stateProps.selectedActivity,
         onClickActivity: (activity: Activity) => stateProps.connectionSelectedActivity && (() => stateProps.connectionSelectedActivity.next({ activity }))
     })
