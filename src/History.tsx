@@ -72,9 +72,9 @@ export class HistoryView extends React.Component<HistoryProps, {}> {
 
         // Validating if we are at the bottom of the list or the last activity was triggered by the user.
 
-        // VC - Disable autoscroll when receiving messages
-        // if (this.scrollToBottom || lastActivityFromMe) {
-        if (lastActivityFromMe) {    
+        // VC - Reverted - Disable autoscroll when receiving messages
+        if (this.scrollToBottom || lastActivityFromMe) {
+        // if (lastActivityFromMe) {    
             this.scrollMe.scrollTop = this.scrollMe.scrollHeight - this.scrollMe.offsetHeight;
         }
     }

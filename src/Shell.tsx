@@ -33,8 +33,25 @@ class ShellContainer extends React.Component<Props, {}> implements ShellFunction
     }
 
     private sendMessage() {
-        if (this.props.inputText.trim().length > 0)
-            this.props.sendMessage(this.props.inputText);
+        //VC - Sync inputText with DOM before sendMessage
+        var element = document.getElementById('wc-shellInputId');
+        if (element != null) {
+            var text = element.getAttribute('value');
+            if (this.props.inputText.trim() != text.trim()) {
+                this.props.onChangeText(text.trim()); 
+                // Wait for inputText update             
+                setTimeout(() => {    
+                    this.props.sendMessage(this.props.inputText);
+                }, 100);
+            }
+            else {
+                if (this.props.inputText.trim().length > 0)
+                    this.props.sendMessage(this.props.inputText);
+            }
+        }    
+
+        // if (this.props.inputText.trim().length > 0)
+        //     this.props.sendMessage(this.props.inputText);
     }
 
     private onKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -103,6 +120,7 @@ class ShellContainer extends React.Component<Props, {}> implements ShellFunction
                 <div className="wc-textbox">
                     <input
                         type="text"
+                        id="wc-shellInputId"
                         className="wc-shellinput"
                         ref={ input => this.textInput = input }
                         autoFocus
