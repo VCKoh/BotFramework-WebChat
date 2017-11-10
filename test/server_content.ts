@@ -212,6 +212,41 @@ export var smallcar_card: dl.Message = {
 }
 
 /*
+ * Activity for Document
+ * 
+ */
+
+export var document_plain: dl.Message = {
+    type: "message",
+    from: bot,
+    timestamp: new Date().toUTCString(),
+    channelId: "webchat",
+    text: "",
+    attachments: [
+        <dl.UnknownMedia>{
+            contentType: "text/plain",
+            contentUrl: asset_url + "test.txt",
+            name: "test.txt"
+        }        
+    ]
+}
+
+export var document_word: dl.Message = {
+    type: "message",
+    from: bot,
+    timestamp: new Date().toUTCString(),
+    channelId: "webchat",
+    text: "",
+    attachments: [
+        <dl.UnknownMedia>{
+            contentType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            contentUrl: asset_url + "test.docx",
+            name: "test.docx"
+        }        
+    ]
+}
+
+/*
  * Activity for Hero Card
  * 
  */
@@ -265,6 +300,21 @@ export var image_raw: dl.Message = {
             contentType: "image/jpg",
             contentUrl: asset_url + "surface1.jpg",
             name: "Microsoft Surface",
+        }
+    ]
+}
+
+export var image_svg: dl.Message = {
+    type: "message",
+    from: bot,
+    timestamp: new Date().toUTCString(),
+    channelId: "webchat",
+    text: "",
+    attachments: [
+        <dl.Media>{
+            contentType: "image/svg+xml",
+            contentUrl: asset_url + "bf_square.svg",
+            name: "Microsoft Bot Framework",
         }
     ]
 }
